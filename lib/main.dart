@@ -22,9 +22,9 @@ class SmartKasirApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(
           seedColor: Color.fromARGB(
             255,
-            147,
-            205,
-            255,
+            17,
+            222,
+            44,
           ), // Biru Navy Profesional Bisnis
           brightness: Brightness.light,
         ),

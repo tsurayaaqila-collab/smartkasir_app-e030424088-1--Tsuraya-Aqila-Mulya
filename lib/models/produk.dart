@@ -29,7 +29,7 @@ final List<Produk> daftarProdukDummy = [
     stok: 24,
     gambarUrl:
         'https://images.unsplash.com/photo-1541167760496-1628856ab772?w=300',
-    diskonPersen: 20, // Menambahkan diskon promo 20% khusus produk ini
+    diskonPersen: 50, // Menambahkan diskon promo 20% khusus produk ini
   ),
   const Produk(
     id: 2,

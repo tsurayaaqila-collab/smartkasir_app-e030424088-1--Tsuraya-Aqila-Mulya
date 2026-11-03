@@ -20,7 +20,7 @@ class SmartKasirApp extends StatelessWidget {
       theme: ThemeData(
         useMaterial3: true,
         colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color.fromARGB(
+          seedColor: Color.fromARGB(
             255,
             147,
             205,

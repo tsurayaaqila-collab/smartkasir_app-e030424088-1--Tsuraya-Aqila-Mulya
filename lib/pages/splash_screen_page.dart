@@ -19,7 +19,7 @@ class SplashScreenPage extends StatefulWidget {
 class _SplashScreenPageState extends State<SplashScreenPage> {
   // --- DEKLARASI VARIABEL STATE & TIMER ---
   // Deklarasi variabel durasi hitung mundur dalam satuan detik (Nilai awal: 5 detik)
-  int _durasiDetik = 20;
+  int _durasiDetik = 10;
   // Deklarasi variabel objek timer asinkron (Nullable '?' karena belum dibuat saat kelas diinisialisasi)
   Timer? _timer;
 

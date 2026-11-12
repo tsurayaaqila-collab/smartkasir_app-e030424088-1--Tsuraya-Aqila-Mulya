@@ -1,10 +1,12 @@
-// Mengimpor pustaka antarmuka Material Design utama dari Flutter
+// Mengimpor pustaka dasar antarmuka Flutter Material 3
 import 'package:flutter/material.dart';
 
-// Mengimpor halaman DashboardPage untuk ditampilkan pada tab menu pertama (Beranda)
+// Mengimpor layar Tab 0: Beranda & Katalog Produk (Modul M11)
 import 'dashboard_page.dart';
+// Mengimpor layar Tab 3: Profil Toko & Kelola Staf Karyawan (Modul M12)
+import 'profil_toko_page.dart';
 
-// Komponen/Widget MainNavigationPage turunan StatefulWidget: Mengelola status tab menu yang aktif
+// Widget berstatus untuk mengelola kerangka navigasi bawah (BottomNavigationBar)
 class MainNavigationPage extends StatefulWidget {
   const MainNavigationPage({super.key});
 
@@ -12,104 +14,95 @@ class MainNavigationPage extends StatefulWidget {
   State<MainNavigationPage> createState() => _MainNavigationPageState();
 }
 
-// Kelas pengelola state dan logika navigasi bawah aplikasi SmartKasir
 class _MainNavigationPageState extends State<MainNavigationPage> {
-  // --- DEKLARASI VARIABEL STATE NAVIGASI ---
-  // Deklarasi variabel indeks tab yang sedang aktif dipilih pengguna (Nilai awal: 0 = Tab Beranda)
+  // Variabel penyimpan indeks tab menu yang sedang aktif dipilih pengguna (default: 0 = Beranda)
   int _currentIndex = 0;
 
-  // Deklarasi variabel koleksi layar halaman menu operasional kasir (Tipe: List of Widget, Immutable)
+  // Daftar 4 layar menu utama aplikasi SmartKasir yang terhubung ke bilah navigasi
   final List<Widget> _pages = [
-    const DashboardPage(), // Indeks 0: Halaman Dashboard Katalog Kasir
+    // Indeks 0: Tab Beranda (Katalog Produk & Operasi CRUD SQLite)
+    const DashboardPage(),
+    // Indeks 1: Tab Kasir POS (Placeholder antarmuka transaksi penjualan Modul M14)
     const Center(
       child: Text(
         'Menu 2: Transaksi Kasir POS (Modul M14)',
         style: TextStyle(fontSize: 16),
       ),
-    ), // Indeks 1: POS Kasir
+    ),
+    // Indeks 2: Tab Riwayat (Placeholder laporan penjualan & rekap omzet Modul M14)
     const Center(
       child: Text(
-        'Menu 3: Riwayat Penjualan & Laporan (Modul M12)',
+        'Menu 3: Riwayat Penjualan & Laporan (Modul M14)',
         style: TextStyle(fontSize: 16),
       ),
-    ), // Indeks 2: Riwayat
-    const Center(
-      child: Text(
-        'Menu 4: Profil Toko & Pengaturan (Modul M12)',
-        style: TextStyle(fontSize: 16),
-      ),
-    ), // Indeks 3: Pengaturan
+    ),
+    // Indeks 3: Tab Toko (Layar Profil Toko SharedPreferences & Kelola Staf Karyawan M12)
+    const ProfilTokoPage(),
   ];
 
   @override
   Widget build(BuildContext context) {
-    // Komponen/Widget Scaffold: Pondasi visual penyedia slot halaman dan bilah navigasi bawah
     return Scaffold(
-      // --- KONTROL PERCABANGAN BERBASIS INDEKS ARRAY (DYNAMIC VIEW SWITCHING) ---
-      // Menampilkan widget halaman secara dinamis dari list _pages sesuai nilai indeks variabel _currentIndex
+      // Menampilkan widget layar sesuai tab menu yang sedang aktif dipilih pada _currentIndex
       body: _pages[_currentIndex],
-      // Komponen/Widget Container: Pembungkus bilah navigasi bawah dengan efek bayangan elevasi
+      // Wadah dekorasi bilah navigasi bawah dengan efek elevasi bayangan halus
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
           boxShadow: [
-            // Efek bayangan halus yang memisahkan area navigasi bawah dengan konten halaman di atasnya
+            // Memberikan bayangan lembut pemisah visual antara konten body dan bilah navigasi
             BoxShadow(
-              color: Colors.black.withOpacity(0.08),
+              color: Colors.black.withValues(alpha: 0.08),
               blurRadius: 10,
-              offset: const Offset(0, -2), // Bayangan mengarah ke atas
+              offset: const Offset(0, -2),
             ),
           ],
         ),
-        // Komponen/Widget BottomNavigationBar: Komponen standar Material Design untuk navigasi 4 tab menu
+        // Komponen bilah navigasi bawah resmi Flutter
         child: BottomNavigationBar(
-          currentIndex: _currentIndex, // Memberi tahu bilah tab mana yang sedang aktif saat ini
-          // Event handler saat pengguna mengetuk salah satu tab menu pada navigasi bawah
+          // Menetapkan indeks tombol navigasi yang sedang aktif tersorot
+          currentIndex: _currentIndex,
+          // Fungsi callback yang dipicu secara otomatis saat mahasiswa/pengguna menyentuh tab
           onTap: (index) {
-            // KONTROL LOGIKA STATE MANAGEMENT: Memperbarui state indeks aktif dan memicu re-render halaman
             setState(() {
-              _currentIndex = index; // Mengubah nilai variabel _currentIndex sesuai tab yang diketuk
+              // Memperbarui variabel indeks aktif untuk memicu render ulang Scaffold body
+              _currentIndex = index;
             });
           },
-          type: BottomNavigationBarType
-              .fixed, // Mengunci lebar ke-4 tab agar stabil dan tidak bergeser
-          backgroundColor:
-              Colors.white, // Warna latar belakang bilah navigasi: Putih
-          selectedItemColor: const Color(
-            0xFF1E3A8A,
-          ), // Warna tab dan label saat aktif: Biru Navy Kasir
-          unselectedItemColor: Colors
-              .grey
-              .shade500, // Warna tab dan label saat pasif: Abu-abu netral
+          // Memastikan seluruh 4 label dan ikon menu tetap statis dan terlihat jelas tanpa bergeser
+          type: BottomNavigationBarType.fixed,
+          backgroundColor: Colors.white,
+          // Warna tema utama Navy (#1E3A8A) saat tab dalam kondisi aktif dipilih
+          selectedItemColor: const Color(0xFF1E3A8A),
+          // Warna abu-abu netral untuk tab yang sedang tidak aktif
+          unselectedItemColor: Colors.grey.shade500,
+          // Format tipografi label teks tab yang sedang aktif
           selectedLabelStyle: const TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 11,
-          ), // Gaya teks aktif tebal
-          unselectedLabelStyle: const TextStyle(
-            fontSize: 10,
-          ), // Gaya teks pasif
-          // --- DEKLARASI DAFTAR ITEM NAVIGASI BAWAH (4 TAB MENU UTAMA) ---
+          ),
+          // Format tipografi label teks tab yang tidak aktif
+          unselectedLabelStyle: const TextStyle(fontSize: 10),
+          // Daftar 4 tombol navigasi beserta ikon dan label teksnya
           items: const [
-            // Tab 1: Menu Beranda Toko
+            // Item Tab 0: Menu Beranda
             BottomNavigationBarItem(
-              icon: Icon(
-                Icons.storefront_outlined,
-              ), // Ikon saat pasif (garis tepi / outline)
-              activeIcon: Icon(Icons.storefront), // Ikon saat aktif (solid)
-              label: 'Beranda', // Label teks menu
+              icon: Icon(Icons.storefront_outlined),
+              activeIcon: Icon(Icons.storefront),
+              label: 'Beranda',
             ),
-            // Tab 2: Menu Kasir POS
+            // Item Tab 1: Menu Kasir
             BottomNavigationBarItem(
               icon: Icon(Icons.shopping_cart_outlined),
               activeIcon: Icon(Icons.shopping_cart),
               label: 'Kasir',
             ),
-            // Tab 3: Menu Riwayat Transaksi & Laporan
+            // Item Tab 2: Menu Riwayat Transaksi
             BottomNavigationBarItem(
               icon: Icon(Icons.receipt_long_outlined),
               activeIcon: Icon(Icons.receipt_long),
               label: 'Riwayat',
             ),
-            // Tab 4: Menu Profil Toko & Pengaturan
+            // Item Tab 3: Menu Toko & Staf Karyawan
             BottomNavigationBarItem(
               icon: Icon(Icons.store_outlined),
               activeIcon: Icon(Icons.store),

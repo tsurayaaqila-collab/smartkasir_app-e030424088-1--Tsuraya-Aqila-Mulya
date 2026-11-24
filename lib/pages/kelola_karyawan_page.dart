@@ -128,7 +128,10 @@ class _KelolaKaryawanPageState extends State<KelolaKaryawanPage> {
       fg = Colors.amber.shade900;
     } else if (peran == 'Admin') {
       bg = Colors.blue.shade100;
-      fg = Colors.blue.shade900;
+      fg = Colors.blue.shade900; 
+    } else if (peran == 'Supervisor') {
+      bg = Colors.purple.shade100;
+      fg = Colors.purple.shade900;
     } else {
       bg = Colors.green.shade100;
       fg = Colors.green.shade900;
